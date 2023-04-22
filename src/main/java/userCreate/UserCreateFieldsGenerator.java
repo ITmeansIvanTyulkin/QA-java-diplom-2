@@ -8,6 +8,7 @@ import static org.codehaus.groovy.runtime.DefaultGroovyMethods.toLowerCase;
 
 public class UserCreateFieldsGenerator {
 
+    // Инициализирую массив данных emails с 10 различными вариантами существующих электронных почт.
     static final String[] emails = {
             "@yandex.ru",       // 1.
             "@gmail.com",       // 2.
@@ -70,6 +71,7 @@ public class UserCreateFieldsGenerator {
         return new UserCreate("basilio_cat@yandex.ru", "12344321", "Basilio");
     }
 
+    // Создаю уникальных пользователей из конструкторов рандомных значений с помощью методов email(), password(), name(), описанных выше.
     public static UserCreate passingGeneratorData() {
         return new UserCreate().setEmail(email()).setPassword(password()).setName(name());
     }

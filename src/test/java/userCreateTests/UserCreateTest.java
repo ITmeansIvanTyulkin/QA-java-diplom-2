@@ -5,6 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.ValidatableResponse;
 import jdk.jfr.Description;
+import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class UserCreateTest {
     public void shouldCreateAUser() {
         UserCreate userCreate = UserCreateFieldsGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = step.create(userCreate);
-        responseCreate.assertThat().statusCode(200);
+        responseCreate.assertThat().statusCode(HttpStatus.SC_OK);
     }
 
 
