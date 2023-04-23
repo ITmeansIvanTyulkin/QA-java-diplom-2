@@ -1,10 +1,14 @@
-package userCreate;
+package userLogin;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class UserCreateFieldsGenerator {
+public class UserLoginFieldsGenerator {
+
+    private static final String invalidEmail = "leopold@yandex.ru";
+    private static final String invalidPassword = "01478520369";
+    private static final String invalidName = "Leopold";
 
     // Инициализирую массив данных emails с 10 различными вариантами существующих электронных почт.
     static final String[] emails = {
@@ -64,18 +68,13 @@ public class UserCreateFieldsGenerator {
         return generatedName;
     }
 
-    // Создаю пользователя по умолчанию для негативного теста попытки регистрации идентичных пользователей.
-    public static UserCreate userDefault() {
-        return new UserCreate("basilio_cat@yandex.ru", "12344321", "Basilio");
-    }
-
     // Создаю уникальных пользователей из конструкторов рандомных значений с помощью методов email(), password(), name(), описанных выше.
-    public static UserCreate passingGeneratorData() {
-        return new UserCreate().setEmail(email()).setPassword(password()).setName(name());
+    public static UserLogin passingGeneratorData() {
+        return new UserLogin().setEmail(email()).setPassword(password()).setName(name());
     }
 
-    // Создаю уникального пользователя из конструктора рандомных значений без одного из обязательных полей.
-    public static UserCreate passingGeneratorDataWithoutOneRequiredField() {
-        return new UserCreate().setEmail(email()).setPassword(password());
+    // Метод для входы в систему с неверным логином и паролем.
+    public static UserLogin passingGeneratorInvalidData() {
+        return new UserLogin().setEmail(invalidEmail).setPassword(invalidPassword).setName(invalidName);
     }
 }
