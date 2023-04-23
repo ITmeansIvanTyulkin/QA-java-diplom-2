@@ -19,7 +19,7 @@ public class UserCreateSteps {
                 .baseUri(BASE_URI);
     }
 
-    @Step("Создание нового уникального пользователя.")
+    @Step("Создание нового пользователя.")
     public ValidatableResponse create(UserCreate userCreate) {
         return getSpec()
                 .body(userCreate)

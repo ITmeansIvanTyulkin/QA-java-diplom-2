@@ -67,12 +67,17 @@ public class UserCreateFieldsGenerator {
     }
 
     // Создаю пользователя по умолчанию для негативного теста попытки регистрации идентичных пользователей.
-    public UserCreate userDefault() {
+    public static UserCreate userDefault() {
         return new UserCreate("basilio_cat@yandex.ru", "12344321", "Basilio");
     }
 
     // Создаю уникальных пользователей из конструкторов рандомных значений с помощью методов email(), password(), name(), описанных выше.
     public static UserCreate passingGeneratorData() {
         return new UserCreate().setEmail(email()).setPassword(password()).setName(name());
+    }
+
+    // Создаю уникального пользователя из конструктора рандомных значений без одного из обязательных полей.
+    public static UserCreate passingGeneratorDataWithoutOneRequiredField() {
+        return new UserCreate().setEmail(email()).setPassword(password());
     }
 }
