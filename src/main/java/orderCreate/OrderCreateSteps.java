@@ -5,22 +5,24 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
-import userDataChange.UserDataChangeGenerator;
+import userLogin.UserLogin;
+import userLogin.UserLoginSteps;
 
 import java.util.List;
 import java.util.Random;
 
 import static io.restassured.RestAssured.given;
-import static orderCreate.InvalidOrder.getData;
 
 public class OrderCreateSteps {
 
     ListOfIngredients listOfIngredients = new ListOfIngredients();
+    UserLoginSteps step;
     protected final String BASE_URI = "https://stellarburgers.nomoreparties.site";
     protected final String USER_CREATE_URI = BASE_URI + "/api/auth/register";
     protected final String USER_LOGIN_URI = BASE_URI + "/api/auth/login";
     protected final String GET_INGREDIENTS_LIST = BASE_URI + "/api/ingredients";
     protected final String POST_ORDER_CREATE = BASE_URI + "/api/orders";
+    protected final String GET_ORDER = BASE_URI + "/api/orders";
 
 
     @Description("Создание спецификации, общее для всех @steps.")
@@ -86,5 +88,36 @@ public class OrderCreateSteps {
                 .then().log().all();
     }
 
+    @Step("Получение заказа авторизованным пользователем.")
+    public ValidatableResponse getTheOrder(Order order) {
+        ValidatableResponse responseCreate = step.logging(new UserLogin());
+        ValidatableResponse responseGetOrder = orderCreate(order);
 
+        String accessToken = responseGetOrder.extract().path("accessToken");
+
+        StringBuilder stringBuilder = new StringBuilder(accessToken);
+        stringBuilder.replace(0, 7, "");
+        String modifiedAccessToken = stringBuilder.toString();
+
+        return getSpec()
+                .auth().oauth2(modifiedAccessToken)
+                .and()
+                .when()
+                .get(GET_ORDER)
+                .then()
+                .log()
+                .all();
+    }
+
+    @Step("Получение заказа неавторизованным пользователем.")
+    public ValidatableResponse getTheOrderWithoutAuth() {
+        return getSpec()
+                .contentType(ContentType.JSON)
+                .and()
+                .when()
+                .get(GET_ORDER)
+                .then()
+                .log()
+                .all();
+    }
 }

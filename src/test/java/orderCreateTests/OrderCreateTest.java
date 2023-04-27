@@ -9,18 +9,13 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import jdk.jfr.Description;
 import orderCreate.IngredientsGenerator;
-import orderCreate.InvalidOrder;
 import orderCreate.Order;
 import orderCreate.OrderCreateSteps;
 import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
-import userCreate.UserCreate;
-import userCreate.UserCreateFieldsGenerator;
 import userLogin.UserLogin;
 import userLogin.UserLoginSteps;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -77,5 +72,27 @@ public class OrderCreateTest {
         Order order = new Order();
         ValidatableResponse responseCreate = step.orderCreateWithoutIngredients(order);
         responseCreate.assertThat().statusCode(HttpStatus.SC_BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("Тест на получение заказа конкретного пользователя.")
+    @Description("Успешное получение заказа с проверкой возвращаемого статус-кода 200 ОК в соответствии с документацией.")
+    @Severity(SeverityLevel.NORMAL)
+    public void getUserOrder() {
+        UserLoginSteps userLoginSteps = new UserLoginSteps();
+        ValidatableResponse responseCreate = userLoginSteps.logging(new UserLogin());
+        Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
+        ValidatableResponse response = step.orderCreate(order);
+        ValidatableResponse responseGetOrder = step.getTheOrder(order);
+        responseGetOrder.assertThat().statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    @DisplayName("Тест на получение заказа неавторизованного пользователя.")
+    @Description("Успешное получение возвращаемого статус-кода 401 Unauthorized в соответствии с документацией.")
+    @Severity(SeverityLevel.NORMAL)
+    public void getNotAuthUserOrder() {
+        ValidatableResponse responseCreate = step.getTheOrderWithoutAuth();
+        responseCreate.assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 }
