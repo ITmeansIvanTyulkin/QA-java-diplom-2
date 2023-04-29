@@ -5,11 +5,16 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
+import userLogin.UserLogin;
+import userLogin.UserLoginSteps;
+
 import static io.restassured.RestAssured.given;
 
 public class UserCreateSteps {
+    UserLoginSteps userLoginSteps = new UserLoginSteps();
     protected final String BASE_URI = "https://stellarburgers.nomoreparties.site";
     protected final String USER_CREATE_URI = BASE_URI + "/api/auth/register";
+    protected final String DELETE_USER = BASE_URI + "/api/auth/user";
 
     @Description("Создание спецификации, общее для всех @steps.")
     private RequestSpecification getSpec() {
@@ -25,5 +30,22 @@ public class UserCreateSteps {
                 .when()
                 .post(USER_CREATE_URI)
                 .then().log().all();
+    }
+
+    @Step("Удаление пользователя.")
+    public ValidatableResponse deleteUser() {
+        ValidatableResponse responseCreate = userLoginSteps.logging(new UserLogin());
+        String accessToken = responseCreate.extract().path("accessToken");
+
+        StringBuilder stringBuilder = new StringBuilder(accessToken);
+        stringBuilder.replace(0, 7, "");
+        String modifiedAccessToken = stringBuilder.toString();
+
+        return given().log().all()
+                .spec(getSpec())
+                .auth().oauth2(modifiedAccessToken)
+                .when()
+                .delete(DELETE_USER)
+                .then();
     }
 }

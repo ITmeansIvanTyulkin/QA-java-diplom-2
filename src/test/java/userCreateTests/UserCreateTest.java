@@ -8,6 +8,7 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import jdk.jfr.Description;
 import org.apache.http.HttpStatus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import userCreate.UserCreate;
@@ -59,9 +60,9 @@ public class UserCreateTest {
         responseCreate.assertThat().statusCode(HttpStatus.SC_FORBIDDEN).extract().path("Forbidden");
     }
 
-    // Удаление созданного пользователя по дефолту. НЕ ЗАБЫТЬ прописать в теле метода - после создания пользователя по дефолту - его повторное создание!
-//    @After
-//    public void tearDown() {
-//
-//    }
+    @After
+    @DisplayName("Удаление пользователя.")
+    public void tearDown() {
+            step.deleteUser();
+    }
 }
