@@ -32,8 +32,8 @@ public class UserDataChangeSteps {
     }
 
     @Step("Вход созданного пользователя в систему.")
-    public ValidatableResponse logging(UserDataChange userDataChange) {
-        userDataChange = UserDataChangeGenerator.passingGeneratorData();
+    public ValidatableResponse logging() {
+        UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = create(userDataChange);
         String accessToken = responseCreate.extract().path("accessToken");
         return getSpec()
@@ -49,7 +49,7 @@ public class UserDataChangeSteps {
 
     @Step("Изменение email пользователя.")
     public ValidatableResponse changingUserEmail(UserDataChange userDataChange) {
-        ValidatableResponse responseLogging = logging(userDataChange);
+        ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
         StringBuilder stringBuilder = new StringBuilder(accessToken);
@@ -69,7 +69,7 @@ public class UserDataChangeSteps {
 
     @Step("Изменение password пользователя.")
     public ValidatableResponse changingUserPassword(UserDataChange userDataChange) {
-        ValidatableResponse responseLogging = logging(userDataChange);
+        ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
         StringBuilder stringBuilder = new StringBuilder(accessToken);
@@ -89,7 +89,7 @@ public class UserDataChangeSteps {
 
     @Step("Изменение name пользователя.")
     public ValidatableResponse changingUserName(UserDataChange userDataChange) {
-        ValidatableResponse responseLogging = logging(userDataChange);
+        ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
         StringBuilder stringBuilder = new StringBuilder(accessToken);
@@ -109,8 +109,8 @@ public class UserDataChangeSteps {
 
     // Шаги для изменения данных НЕавторизованного пользователя. То есть, пользователь существует, но не авторизован в системе.
     @Step("Изменение email существующего пользователя без входа в систему.")
-    public ValidatableResponse changingNotAuthorizedUserEmail(UserDataChange userDataChange) {
-        userDataChange = UserDataChangeGenerator.passingGeneratorData();
+    public ValidatableResponse changingNotAuthorizedUserEmail() {
+        UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = create(userDataChange);
         String accessToken = responseCreate.extract().path("accessToken");
 
@@ -130,8 +130,8 @@ public class UserDataChangeSteps {
     }
 
     @Step("Изменение password существующего пользователя без входа в систему.")
-    public ValidatableResponse changingNotAuthorizedUserPassword(UserDataChange userDataChange) {
-        userDataChange = UserDataChangeGenerator.passingGeneratorData();
+    public ValidatableResponse changingNotAuthorizedUserPassword() {
+        UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = create(userDataChange);
         String accessToken = responseCreate.extract().path("accessToken");
 
@@ -151,8 +151,8 @@ public class UserDataChangeSteps {
     }
 
     @Step("Изменение name существующего пользователя без входа в систему.")
-    public ValidatableResponse changingNotAuthorizedUserName(UserDataChange userDataChange) {
-        userDataChange = UserDataChangeGenerator.passingGeneratorData();
+    public ValidatableResponse changingNotAuthorizedUserName() {
+        UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = create(userDataChange);
         String accessToken = responseCreate.extract().path("accessToken");
 

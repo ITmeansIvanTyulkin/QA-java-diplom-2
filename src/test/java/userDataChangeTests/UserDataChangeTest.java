@@ -8,7 +8,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import userDataChange.UserDataChange;
-import userDataChange.UserDataChangeGenerator;
 import userDataChange.UserDataChangeSteps;
 
 
@@ -16,13 +15,11 @@ public class UserDataChangeTest {
 
     private UserDataChangeSteps step;
     UserDataChange userDataChange;
-    UserDataChangeGenerator userDataChangeGenerator;
 
 
     @Before
     @Step("Создание объектов для проведения тестов.")
     public void setUp() {
-        userDataChangeGenerator = new UserDataChangeGenerator();
         step = new UserDataChangeSteps();
     }
 
@@ -71,7 +68,7 @@ public class UserDataChangeTest {
     @TmsLink("https://practicum.yandex.ru/learn/qa-automation-engineer-java/courses/5c87a15a-37d9-4d06-8e7d-3ebe49aba2fb/sprints/72940/topics/7ec6ef07-a3d5-4923-a8ac-64313ac438e1/lessons/311b7751-0b28-438a-adb4-732ca7080912/")
     @Issue("Bug report link")
     public void wouldChangeEmailNonAuthorizedUser() {
-        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserEmail(userDataChange);
+        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserEmail();
         responseEmailChanged.assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 
@@ -82,7 +79,7 @@ public class UserDataChangeTest {
     @TmsLink("https://practicum.yandex.ru/learn/qa-automation-engineer-java/courses/5c87a15a-37d9-4d06-8e7d-3ebe49aba2fb/sprints/72940/topics/7ec6ef07-a3d5-4923-a8ac-64313ac438e1/lessons/311b7751-0b28-438a-adb4-732ca7080912/")
     @Issue("Bug report link")
     public void wouldChangePasswordNonAuthorizedUser() {
-        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserPassword(userDataChange);
+        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserPassword();
         responseEmailChanged.assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 
@@ -93,7 +90,7 @@ public class UserDataChangeTest {
     @TmsLink("https://practicum.yandex.ru/learn/qa-automation-engineer-java/courses/5c87a15a-37d9-4d06-8e7d-3ebe49aba2fb/sprints/72940/topics/7ec6ef07-a3d5-4923-a8ac-64313ac438e1/lessons/311b7751-0b28-438a-adb4-732ca7080912/")
     @Issue("Bug report link")
     public void wouldChangeNameNonAuthorizedUser() {
-        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserName(userDataChange);
+        ValidatableResponse responseEmailChanged = step.changingNotAuthorizedUserName();
         responseEmailChanged.assertThat().statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 }

@@ -11,7 +11,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import userLogin.UserLogin;
-import userLogin.UserLoginFieldsGenerator;
 import userLogin.UserLoginSteps;
 
 
@@ -19,12 +18,10 @@ public class UserLoginTest {
 
     private UserLoginSteps step;
     UserLogin userLogin;
-    UserLoginFieldsGenerator userLoginFieldsGenerator;
 
     @Before
     @Step("Создание объектов для проведения тестов.")
     public void setUp() {
-        userLoginFieldsGenerator = new UserLoginFieldsGenerator();
         step = new UserLoginSteps();
     }
 

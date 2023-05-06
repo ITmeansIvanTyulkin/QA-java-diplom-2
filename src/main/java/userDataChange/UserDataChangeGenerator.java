@@ -6,10 +6,6 @@ import java.util.Random;
 
 public class UserDataChangeGenerator {
 
-//    private static final String newEmail = "leopold_cat@yandex.ru";
-//    private static final String newPassword = "0478520369";
-//    private static final String newName = "Leopold_cat";
-
     // Инициализирую массив данных emails с 10 различными вариантами существующих электронных почт.
     static final String[] emails = {
             "@yandex.ru",       // 1.

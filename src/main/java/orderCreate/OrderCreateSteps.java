@@ -90,7 +90,7 @@ public class OrderCreateSteps {
 
     @Step("Получение заказа авторизованным пользователем.")
     public ValidatableResponse getTheOrder(Order order) {
-        ValidatableResponse responseCreate = step.logging(new UserLogin());
+        step.logging(new UserLogin());
         ValidatableResponse responseGetOrder = orderCreate(order);
 
         String accessToken = responseGetOrder.extract().path("accessToken");

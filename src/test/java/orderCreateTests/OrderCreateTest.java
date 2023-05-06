@@ -1,6 +1,5 @@
 package orderCreateTests;
 
-import com.google.gson.Gson;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
@@ -8,7 +7,6 @@ import io.qameta.allure.TmsLink;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import jdk.jfr.Description;
-import orderCreate.IngredientsGenerator;
 import orderCreate.Order;
 import orderCreate.OrderCreateSteps;
 import org.apache.http.HttpStatus;
@@ -22,8 +20,6 @@ import java.util.Arrays;
 public class OrderCreateTest {
 
     private OrderCreateSteps step;
-    IngredientsGenerator ingredientsGenerator;
-    Gson gson = new Gson();
 
 
     @Before
@@ -58,7 +54,7 @@ public class OrderCreateTest {
     @Severity(SeverityLevel.NORMAL)
     public void postOrderWithAuthorization() {
         UserLoginSteps userLoginSteps = new UserLoginSteps();
-        ValidatableResponse responseCreate = userLoginSteps.logging(new UserLogin());
+        userLoginSteps.logging(new UserLogin());
         Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
         ValidatableResponse response = step.orderCreate(order);
         response.assertThat().statusCode(HttpStatus.SC_OK);
@@ -80,7 +76,7 @@ public class OrderCreateTest {
     @Severity(SeverityLevel.NORMAL)
     public void getUserOrder() {
         UserLoginSteps userLoginSteps = new UserLoginSteps();
-        ValidatableResponse responseCreate = userLoginSteps.logging(new UserLogin());
+        userLoginSteps.logging(new UserLogin());
         Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
         ValidatableResponse response = step.orderCreate(order);
         ValidatableResponse responseGetOrder = step.getTheOrder(order);

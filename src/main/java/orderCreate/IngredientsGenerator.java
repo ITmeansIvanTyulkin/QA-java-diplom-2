@@ -33,6 +33,7 @@ public class IngredientsGenerator {
         this.numberOfOrder = numberOfOrder;
     }
 
+    // Данный комментарий ниже - не удалять, нужен для реализации ToJson().
 //    public String generateOrder() {
 //        OrderCreateSteps orderCreateSteps = new OrderCreateSteps();
 //        String numberOfOrder = orderCreateSteps.gettingListOfIngredients();
