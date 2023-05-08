@@ -48,7 +48,7 @@ public class UserDataChangeSteps {
     }
 
     @Step("Изменение email пользователя.")
-    public ValidatableResponse changingUserEmail(UserDataChange userDataChange) {
+    public ValidatableResponse changingUserEmail() {
         ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
@@ -68,7 +68,7 @@ public class UserDataChangeSteps {
     }
 
     @Step("Изменение password пользователя.")
-    public ValidatableResponse changingUserPassword(UserDataChange userDataChange) {
+    public ValidatableResponse changingUserPassword() {
         ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
@@ -88,7 +88,7 @@ public class UserDataChangeSteps {
     }
 
     @Step("Изменение name пользователя.")
-    public ValidatableResponse changingUserName(UserDataChange userDataChange) {
+    public ValidatableResponse changingUserName() {
         ValidatableResponse responseLogging = logging();
         String accessToken = responseLogging.extract().path("accessToken");
 
@@ -112,15 +112,16 @@ public class UserDataChangeSteps {
     public ValidatableResponse changingNotAuthorizedUserEmail() {
         UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
         ValidatableResponse responseCreate = create(userDataChange);
-        String accessToken = responseCreate.extract().path("accessToken");
+//        String accessToken = responseCreate.extract().path("accessToken");
 
-        StringBuilder stringBuilder = new StringBuilder(accessToken);
-        stringBuilder.replace(0, 7, "");
-        String modifiedAccessToken = stringBuilder.toString();
+//        StringBuilder stringBuilder = new StringBuilder(accessToken);
+//        stringBuilder.replace(0, 7, "");
+//        String modifiedAccessToken = stringBuilder.toString();
 
         return getSpec()
-                .auth().oauth2(modifiedAccessToken)
-                .and()
+                //.auth().oauth2(modifiedAccessToken)
+                //.and()
+                //.headers("Authorization", accessToken) // если оставлять эту строку, то удалить предыдущие две.
                 .body(UserDataChangeGenerator.passingGeneratorNewEmail())
                 .when()
                 .patch(PATCH_CHANGE_USER_DATA)
@@ -132,16 +133,9 @@ public class UserDataChangeSteps {
     @Step("Изменение password существующего пользователя без входа в систему.")
     public ValidatableResponse changingNotAuthorizedUserPassword() {
         UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
-        ValidatableResponse responseCreate = create(userDataChange);
-        String accessToken = responseCreate.extract().path("accessToken");
-
-        StringBuilder stringBuilder = new StringBuilder(accessToken);
-        stringBuilder.replace(0, 7, "");
-        String modifiedAccessToken = stringBuilder.toString();
+        create(userDataChange);
 
         return getSpec()
-                .auth().oauth2(modifiedAccessToken)
-                .and()
                 .body(UserDataChangeGenerator.passingGeneratorNewPassword())
                 .when()
                 .patch(PATCH_CHANGE_USER_DATA)
@@ -153,16 +147,9 @@ public class UserDataChangeSteps {
     @Step("Изменение name существующего пользователя без входа в систему.")
     public ValidatableResponse changingNotAuthorizedUserName() {
         UserDataChange userDataChange = UserDataChangeGenerator.passingGeneratorData();
-        ValidatableResponse responseCreate = create(userDataChange);
-        String accessToken = responseCreate.extract().path("accessToken");
-
-        StringBuilder stringBuilder = new StringBuilder(accessToken);
-        stringBuilder.replace(0, 7, "");
-        String modifiedAccessToken = stringBuilder.toString();
+        create(userDataChange);
 
         return getSpec()
-                .auth().oauth2(modifiedAccessToken)
-                .and()
                 .body(UserDataChangeGenerator.passingGeneratorNewName())
                 .when()
                 .patch(PATCH_CHANGE_USER_DATA)

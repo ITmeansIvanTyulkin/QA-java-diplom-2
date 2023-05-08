@@ -17,6 +17,7 @@ public class OrderCreateSteps {
 
     ListOfIngredients listOfIngredients = new ListOfIngredients();
     UserLoginSteps step;
+    UserLoginSteps userLoginSteps = new UserLoginSteps();
     protected final String BASE_URI = "https://stellarburgers.nomoreparties.site";
     protected final String USER_CREATE_URI = BASE_URI + "/api/auth/register";
     protected final String USER_LOGIN_URI = BASE_URI + "/api/auth/login";
@@ -90,10 +91,9 @@ public class OrderCreateSteps {
 
     @Step("Получение заказа авторизованным пользователем.")
     public ValidatableResponse getTheOrder(Order order) {
-        step.logging(new UserLogin());
-        ValidatableResponse responseGetOrder = orderCreate(order);
-
-        String accessToken = responseGetOrder.extract().path("accessToken");
+        ValidatableResponse response = userLoginSteps.logging(new UserLogin());
+        String accessToken = response.extract().path("accessToken");
+        orderCreate(order);
 
         StringBuilder stringBuilder = new StringBuilder(accessToken);
         stringBuilder.replace(0, 7, "");

@@ -13,6 +13,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import userLogin.UserLogin;
+import userLogin.UserLoginFieldsGenerator;
 import userLogin.UserLoginSteps;
 import java.util.Arrays;
 
@@ -20,12 +21,16 @@ import java.util.Arrays;
 public class OrderCreateTest {
 
     private OrderCreateSteps step;
+    private UserLoginFieldsGenerator userLoginFieldsGenerator;
+    private UserLogin user;
 
 
     @Before
     @Step("Создание объектов для проведения тестов.")
     public void setUp() {
         step = new OrderCreateSteps();
+        userLoginFieldsGenerator = new UserLoginFieldsGenerator();
+        user = new UserLogin();
     }
 
     @Test
@@ -54,7 +59,7 @@ public class OrderCreateTest {
     @Severity(SeverityLevel.NORMAL)
     public void postOrderWithAuthorization() {
         UserLoginSteps userLoginSteps = new UserLoginSteps();
-        userLoginSteps.logging(new UserLogin());
+        userLoginSteps.logging(userLoginFieldsGenerator.passingGeneratorData());
         Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
         ValidatableResponse response = step.orderCreate(order);
         response.assertThat().statusCode(HttpStatus.SC_OK);
@@ -78,7 +83,7 @@ public class OrderCreateTest {
         UserLoginSteps userLoginSteps = new UserLoginSteps();
         userLoginSteps.logging(new UserLogin());
         Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
-        ValidatableResponse response = step.orderCreate(order);
+        step.orderCreate(order);
         ValidatableResponse responseGetOrder = step.getTheOrder(order);
         responseGetOrder.assertThat().statusCode(HttpStatus.SC_OK);
     }
