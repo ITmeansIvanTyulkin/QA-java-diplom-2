@@ -21,16 +21,12 @@ import java.util.Arrays;
 public class OrderCreateTest {
 
     private OrderCreateSteps step;
-    private UserLoginFieldsGenerator userLoginFieldsGenerator;
-    private UserLogin user;
 
 
     @Before
     @Step("Создание объектов для проведения тестов.")
     public void setUp() {
         step = new OrderCreateSteps();
-        userLoginFieldsGenerator = new UserLoginFieldsGenerator();
-        user = new UserLogin();
     }
 
     @Test
@@ -59,7 +55,7 @@ public class OrderCreateTest {
     @Severity(SeverityLevel.NORMAL)
     public void postOrderWithAuthorization() {
         UserLoginSteps userLoginSteps = new UserLoginSteps();
-        userLoginSteps.logging(userLoginFieldsGenerator.passingGeneratorData());
+        userLoginSteps.logging(UserLoginFieldsGenerator.passingGeneratorData());
         Order order = new Order(Arrays.asList(step.gettingListOfIngredients()));
         ValidatableResponse response = step.orderCreate(order);
         response.assertThat().statusCode(HttpStatus.SC_OK);
